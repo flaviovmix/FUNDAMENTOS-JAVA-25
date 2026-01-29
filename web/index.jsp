@@ -1,3 +1,4 @@
+<%@page import="java.sql.*" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%> 
 <!DOCTYPE html>  
 <html>  
@@ -27,21 +28,60 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>TÍTULO DA TAREFA</td>
-                    <td>Média</td>
-                    <td>Nome do Responsável</td>
-                    <td>Status da Tarefa</td>
+<%
+                    String url = "jdbc:postgresql://localhost:5432/DB_GENERICO";
+                    String user = "postgres";
+                    String pass = "1234";
 
-                    <td class="btn-action edit">
-                        <a href="#"><i class="fa-solid fa-pen"></i></a>
-                    </td>
+                    Connection con = null;
+                    PreparedStatement ps = null;
+                    ResultSet rs = null;
 
-                    <td class="btn-action delete">
-                        <a href="#"><i class="fa-solid fa-trash"></i></a>
-                    </td>
-                </tr>
+                    try {
+                        Class.forName("org.postgresql.Driver");
+                        con = DriverManager.getConnection(url, user, pass);
+
+                        String sql = "SELECT * FROM tarefas";
+                        ps = con.prepareStatement(sql);
+                        rs = ps.executeQuery();
+                        while (rs.next()) { %> 
+                            <tr>
+                                <td><%= rs.getInt("id_tarefa") %></td> 
+                                <td><%= rs.getString("titulo") %></td> 
+                                <td><%= rs.getString("prioridade") %></td> 
+                                <td><%= rs.getString("responsavel") %></td> 
+
+                                <% if (rs.getInt("status") == 0) { %>
+                                    <td>inativo</td>
+                                <% } else { %>
+                                    <td>ativo</td>
+                                <% } %>
+
+                                <td class="btn-action edit">
+                                    <a href="#"><i class="fa-solid fa-pen"></i></a>
+                                </td>
+
+                                <td class="btn-action delete">
+                                    <a href="#"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        <% }
+
+                    } catch (Exception e) {
+                        out.println("Erro: " + e.getMessage());
+                    } finally {
+                        if (rs != null) {
+                            rs.close();
+                        }
+                        if (ps != null) {
+                            ps.close();
+                        }
+                        if (con != null) {
+                            con.close();
+                        }
+                    }
+
+                %> 
             </tbody>
 
         </table>

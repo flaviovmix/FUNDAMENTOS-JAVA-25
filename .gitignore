@@ -8,7 +8,7 @@
 *.mp3
 
 # Ignorar banco de dados
-#*.sql
+*.sql
 
 # nbproject configs
 nbproject/private/
