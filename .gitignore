@@ -8,10 +8,12 @@
 *.mp3
 
 # Ignorar banco de dados
-*.sql
+#*.sql
+testo.txt
 
 # nbproject configs
 nbproject/private/
+src/java/br/util/
 
 # compilados
 build/

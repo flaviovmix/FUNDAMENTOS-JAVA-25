@@ -45,3 +45,12 @@ th {
 .task-table .btn-action.delete a:hover {
     color: #dc2626;
 }
+
+.prioridade, tr > th:first-child {
+     padding: 0 !important;
+     width: 15px;
+}
+
+.alta {background-color: #fca5a5}
+.media {background-color: #93c5fd}
+.baixa {background-color: #86efac}

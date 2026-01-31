@@ -1,7 +1,10 @@
+<%@page import="java.util.List"%>
+<%@page import="br.projeto.tarefa.TarefaBean"%>
+<%@page import="br.projeto.tarefa.TarefaDAO"%>
 <%@page import="br.root.config.ConnectionPool"%>
 <%@page import="java.sql.*" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,6 +21,7 @@
             
             <thead>
                 <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>Título</th>
                     <th>Prioridade</th>
@@ -30,32 +34,50 @@
             
             <tbody>
                 <%
-                    String sql = "SELECT * FROM tarefas";
-                    try (
-                            Connection con = ConnectionPool.getConexao(); 
-                            PreparedStatement ps = con.prepareStatement(sql); 
-                            ResultSet rs = ps.executeQuery();
-                        ) {
-                        while (rs.next()) { %>
+                    try {
+                        TarefaDAO dao = new TarefaDAO();
+                        List<TarefaBean> tarefas = dao.listarTarefas();
+
+                        if (tarefas.isEmpty()) { 
+                %>
                             <tr>
-                                <td><%= rs.getInt("id_tarefa")%></td>
-                                <td><%= rs.getString("titulo")%></td>
-                                <td><%= rs.getString("prioridade")%></td>
-                                <td><%= rs.getString("responsavel")%></td>
-                                <td>
-                                    <%= rs.getInt("status") == 0 ? "inativo" : "ativo"%>
-                                </td>
-                                <td class="btn-action edit">
-                                    <a href="#"><i class="fa-solid fa-pen"></i></a>
-                                </td>
-                                <td class="btn-action delete">
-                                    <a href="#"><i class="fa-solid fa-trash"></i></a>
+                                <td colspan="8" style="text-align:center; font-weight:bold;">
+                                    Nenhuma tarefa cadastrada.
                                 </td>
                             </tr>
-                        <% }
-                        } catch (Exception e) {
-                            out.println("Erro: " + e.getMessage());
-                        } %>
+                <%
+                        } else {
+                            for (TarefaBean tarefa : tarefas) {
+                %>
+                                <tr>
+                                    <td class="prioridade <%= tarefa.getPrioridade() %>"></td>
+                                    <td><%= tarefa.getId_tarefa() %></td>
+                                    <td><%= tarefa.getTitulo() %></td>
+                                    <td><%= tarefa.getPrioridade() %></td>
+                                    <td><%= tarefa.getResponsavel() %></td>
+                                    <td><%= tarefa.getStatus() %></td>
+                                    <td class="btn-action edit">
+                                        <a href="#"><i class="fa-solid fa-pen"></i></a>
+                                    </td>
+                                    <td class="btn-action delete">
+                                        <a href="#"><i class="fa-solid fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                <%
+                            }
+                        }
+
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                %>
+                        <tr>
+                            <td colspan="8" style="text-align:center; font-weight:bold; color:#c00;">
+                                Erro ao conectar ao banco de dados. Contate um adminstrado do sistema
+                            </td>
+                        </tr>
+                <%
+                    }
+                %>
             </tbody>
             
         </table>
