@@ -42,5 +42,19 @@ public class TarefaDAO {
         }
         return lista;
     }
+    
+    public void excluirTarefa(Integer id) throws SQLException {
+        String sql = "DELETE FROM tarefas WHERE id_tarefa = ?";
+
+        try (
+            Connection conn = con.getConexao();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

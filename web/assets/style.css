@@ -51,6 +51,16 @@ th {
      width: 15px;
 }
 
+.error {
+    text-align:center; 
+    font-weight:bold; 
+    color:#c00;
+}
+
+.text-info {
+    text-align:center; 
+    font-weight:bold;
+}
 .alta {background-color: #fca5a5}
 .media {background-color: #93c5fd}
 .baixa {background-color: #86efac}

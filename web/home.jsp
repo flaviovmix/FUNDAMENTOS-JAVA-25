@@ -39,30 +39,46 @@
                 %>
                     <% if (erro != null) { %>
                         <tr>
-                            <td colspan="8" style="text-align:center; font-weight:bold; color:#c00;">
+                            <td class="error" colspan="8">
                                 <%= erro %>
                             </td>
                         </tr>
                     <% } else if (tarefas == null || tarefas.isEmpty()) { %>
                         <tr>
-                            <td colspan="8" style="text-align:center; font-weight:bold;">
+                            <td class="text-info" colspan="8">
                                 Nenhuma tarefa cadastrada.
                             </td>
                         </tr>
                     <% } else { 
                         for (TarefaBean tarefa : tarefas) { %>
+                            <tr>
+                                <td class="prioridade <%= tarefa.getPrioridade() %>"></td>
+                                <td><%= tarefa.getId_tarefa() %></td>
+                                <td><%= tarefa.getTitulo() %></td>
+                                <td><%= tarefa.getPrioridade() %></td>
+                                <td><%= tarefa.getResponsavel() %></td>
+                                <td><%= tarefa.getStatusText()%></td>
 
-                        <tr>
-                            <td class="prioridade <%= tarefa.getPrioridade() %>"></td>
-                            <td><%= tarefa.getId_tarefa() %></td>
-                            <td><%= tarefa.getTitulo() %></td>
-                            <td><%= tarefa.getPrioridade() %></td>
-                            <td><%= tarefa.getResponsavel() %></td>
-                            <td><%= tarefa.getStatus() %></td>
-                            <td class="btn-action edit"><a href="#"><i class="fa-solid fa-pen"></i></a></td>
-                            <td class="btn-action delete"><a href="#"><i class="fa-solid fa-trash"></i></a></td>
-                        </tr>
+                                <td class="btn-action edit">
+                                    <a href="#">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                </td>
 
+                                <td class="btn-action delete">
+                                    <a href="#"
+                                       onclick="document.getElementById('del-<%= tarefa.getId_tarefa() %>').submit(); return false;">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </a>
+
+                                    <form id="del-<%= tarefa.getId_tarefa() %>"
+                                          action="<%= request.getContextPath() %>/tarefas/deletar"
+                                          method="post"
+                                          style="display:none;">
+                                        <input type="hidden" name="id-tarefa" value="<%= tarefa.getId_tarefa() %>">
+                                    </form>
+                                </td>
+                            </tr>
                     <%  } 
                 } %>
             </tbody>
