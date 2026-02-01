@@ -19,19 +19,6 @@ public class TarefaListarServlet extends HttpServlet {
             HttpServletResponse response
         ) throws ServletException, IOException {
 
-        try {
-            ConnectionPool pool = new ConnectionPool();
-            TarefaDAO dao = new TarefaDAO(pool);
-
-            List<TarefaBean> tarefas = dao.listarTarefas();
-            request.setAttribute("tarefas", tarefas);
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
-
-        } catch (SQLException e) {
-            log("Erro ao listar tarefas", e);
-
-            request.setAttribute("erro", "Erro ao conectar ao banco de dados. Contate um administrador do sistema.");
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
-        }
+      throw new RuntimeException("Teste de erro 500");
     }
 }
