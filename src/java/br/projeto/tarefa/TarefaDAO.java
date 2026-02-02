@@ -10,22 +10,12 @@ import java.util.List;
 
 public class TarefaDAO {
 
-    private final ConnectionPool con;
-
-    public TarefaDAO() {
-        this.con = new ConnectionPool();
-    }
-
-    public TarefaDAO(ConnectionPool con) {
-        this.con = con;
-    }
-
     public List<TarefaBean> listarTarefas() throws SQLException {
         List<TarefaBean> lista = new ArrayList<>();
         String sql = "SELECT * FROM tarefas";
 
         try (
-            Connection conn = con.getConexao();
+            Connection conn = ConnectionPool.getConexao();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery()
         ) {
@@ -40,21 +30,19 @@ public class TarefaDAO {
                 lista.add(tarefa);
             }
         }
+
         return lista;
     }
-    
+
     public void excluirTarefa(Integer id) throws SQLException {
         String sql = "DELETE FROM tarefas WHERE id_tarefa = ?";
 
         try (
-            Connection conn = con.getConexao();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ) {
+            Connection conn = ConnectionPool.getConexao();
+            PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
             ps.setInt(1, id);
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }
-

@@ -13,13 +13,14 @@ import java.sql.SQLException;
 public class TarefaDeletarServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(
+        HttpServletRequest request, 
+        HttpServletResponse response
+    ) throws ServletException, IOException {
 
         String idStr = request.getParameter("id-tarefa");
-
-        // validação simples
         int id;
+        
         try {
             id = Integer.parseInt(idStr);
         } catch (Exception e) {
@@ -29,8 +30,7 @@ public class TarefaDeletarServlet extends HttpServlet {
         }
 
         try {
-            ConnectionPool pool = new ConnectionPool();
-            TarefaDAO dao = new TarefaDAO(pool);
+            TarefaDAO dao = new TarefaDAO();
 
             dao.excluirTarefa(id);
 

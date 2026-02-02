@@ -1,6 +1,5 @@
 package br.projeto.tarefa;
 
-import br.root.config.ConnectionPool;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,15 +13,11 @@ import java.util.List;
 public class TarefaListarServlet extends HttpServlet {
 
     @Override
-    protected void doGet(
-            HttpServletRequest request, 
-            HttpServletResponse response
-        ) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         try {
-            ConnectionPool pool = new ConnectionPool();
-            TarefaDAO dao = new TarefaDAO(pool);
-
+            TarefaDAO dao = new TarefaDAO();
             List<TarefaBean> tarefas = dao.listarTarefas();
 
             if (tarefas == null || tarefas.isEmpty()) {
@@ -35,17 +30,19 @@ public class TarefaListarServlet extends HttpServlet {
             request.getRequestDispatcher("/home.jsp").forward(request, response);
 
         } catch (SQLException e) {
-            log("Erro ao listar tarefas", e);
+            Throwable causa = e.getCause();
+            if (causa instanceof javax.naming.NamingException) {
+                log("JNDI indisponível: " + causa.getMessage(), e);
+            } else {
+                log("SQL erro: " + e.getMessage(), e);
+            }
 
             request.setAttribute("alertaTipo", "erro");
-            request.setAttribute(
-                "alertaMsg",
+            request.setAttribute("alertaMsg",
                 "Erro ao conectar ao banco de dados. Contate um administrador do sistema."
             );
-
             request.getRequestDispatcher("/home.jsp").forward(request, response);
         }
-
     }
 }
 

@@ -8,9 +8,10 @@ import javax.sql.DataSource;
 
 public final class ConnectionPool {
 
+    private ConnectionPool() {} // impede new ConnectionPool()
+
     private static final String JNDI_NAME = "java:comp/env/jdbc/PoolConexoes";
     private static DataSource dataSource;
-
     private static NamingException erroJndi;
 
     static {
@@ -18,8 +19,8 @@ public final class ConnectionPool {
             InitialContext ic = new InitialContext();
             dataSource = (DataSource) ic.lookup(JNDI_NAME);
         } catch (NamingException e) {
-            erroJndi = e;     
-            dataSource = null; 
+            erroJndi = e;
+            dataSource = null;
         }
     }
 
@@ -34,5 +35,5 @@ public final class ConnectionPool {
         }
         return dataSource.getConnection();
     }
-
 }
+
