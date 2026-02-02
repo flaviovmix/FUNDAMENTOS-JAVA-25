@@ -12,13 +12,14 @@
         <meta charset="UTF-8">
         <title>Lista de Tarefas</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/modalTarefa.css">
     </head>
     <body>
 
     <header>
         <div class="header-inner">
-            <button class="btn-add">
+            <button class="btn-add" onclick="novaTarefa()">
                 <i class="fa-solid fa-plus"></i>
                 Nova Tarefa
             </button>
@@ -92,6 +93,8 @@
 
             </tbody>
         </table>
-            
+        <div id="modal"></div>
+        <script src="./assets/js/modalTarefas.js"></script>
+        <script>desenharModal();</script>
     </body>
 </html>
