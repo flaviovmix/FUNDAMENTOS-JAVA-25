@@ -8,9 +8,11 @@ import javax.sql.DataSource;
 
 public final class ConnectionPool {
 
+    private ConnectionPool() {
+    }
+
     private static final String JNDI_NAME = "java:comp/env/jdbc/PoolConexoes";
     private static DataSource dataSource;
-
     private static NamingException erroJndi;
 
     static {
@@ -18,8 +20,8 @@ public final class ConnectionPool {
             InitialContext ic = new InitialContext();
             dataSource = (DataSource) ic.lookup(JNDI_NAME);
         } catch (NamingException e) {
-            erroJndi = e;     
-            dataSource = null; 
+            erroJndi = e;
+            dataSource = null;
         }
     }
 
@@ -27,12 +29,12 @@ public final class ConnectionPool {
         if (dataSource == null) {
             SQLException ex = new SQLException(
                 "Erro ao conectar ao banco (JNDI nao disponivel): " +
-                (erroJndi != null ? erroJndi.getMessage() : "DataSource nao inicializado")
+                (erroJndi != null ? erroJndi : "DataSource nao inicializado")
             );
             if (erroJndi != null) ex.initCause(erroJndi);
             throw ex;
         }
         return dataSource.getConnection();
     }
-
 }
+

@@ -1,5 +1,11 @@
+/* =======================================================================
+   FONT
+   ======================================================================= */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
+/* =======================================================================
+   BASE
+   ======================================================================= */
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
@@ -8,19 +14,78 @@ body {
     color: #222;
 }
 
-h2 {
-    text-align: center;
+/* =======================================================================
+   HEADER (usa a tag <header>, sem classe)
+   ======================================================================= */
+header {
+    width: 100%;
+    background: #1f2937;
 }
 
-table {
-    border-collapse: collapse;
+.header-inner {
     width: 900px;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    color: #fff;
+}
+
+header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* botão adicionar */
+.btn-add {
+    background: #22c55e;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-add:hover {
+    background: #16a34a;
+}
+
+/* =======================================================================
+   MAIN (container de conteúdo)
+   ======================================================================= */
+main {
+    width: 900px;
+    margin: 0 auto;
+}
+
+/* título da página */
+main h1 {
+    margin: 34px 0 22px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+/* =======================================================================
+   TABLE
+   ======================================================================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    background: #fff;
 }
 
 th, td {
     border-bottom: 1px solid #ccc;
     padding: 15px;
+    font-size: 14px;
 }
 
 th {
@@ -29,8 +94,46 @@ th {
     text-align: left;
 }
 
+/* última linha forte */
+.task-table tbody tr:last-child td {
+    border-bottom: 2px solid #000;
+}
+
+/* =======================================================================
+   LINKS
+   ======================================================================= */
+.task-table td a {
+    color: #111;
+    text-decoration: none;
+}
+
+.task-table td a:hover {
+    text-decoration: underline;
+}
+
+/* =======================================================================
+   PRIORIDADE (primeira coluna)
+   ======================================================================= */
+.prioridade,
+tr > th:first-child {
+    padding: 0 !important;
+    width: 15px;
+}
+
+.alta  { background-color: #fca5a5; }
+.media { background-color: #93c5fd; }
+.baixa { background-color: #86efac; }
+
+/* =======================================================================
+   AÇÕES (editar / excluir)
+   ======================================================================= */
 .task-table .btn-action {
     text-align: center;
+}
+
+.btn-action {
+    position: relative;
+    z-index: 2; /* acima do overlay da linha */
 }
 
 .task-table .btn-action a {
@@ -46,11 +149,70 @@ th {
     color: #dc2626;
 }
 
-.prioridade, tr > th:first-child {
-     padding: 0 !important;
-     width: 15px;
+/* =======================================================================
+   LINHA CLICÁVEL
+   ======================================================================= */
+.row-link {
+    position: relative;
 }
 
-.alta {background-color: #fca5a5}
-.media {background-color: #93c5fd}
-.baixa {background-color: #86efac}
+.cell-link {
+    position: relative;
+}
+
+/* link invisível que cobre a linha inteira */
+.row-anchor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.row-link:hover {
+    background: #f1f5f9;
+    cursor: pointer;
+}
+
+/* =======================================================================
+   ALERTAS
+   ======================================================================= */
+.erro {
+    text-align: center;
+    font-weight: bold;
+    color: #c00;
+    background-color: #ffe5e5;
+}
+
+.info {
+    text-align: center;
+    font-weight: bold;
+    color: #055160;
+    background-color: #e7f3f7;
+}
+
+/* =======================================================================
+   FOOTER FIXO
+   ======================================================================= */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #1f2937;
+}
+
+.footer-inner {
+    width: 900px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* evita o footer cobrir o conteúdo */
+body {
+    padding-bottom: 60px;
+}

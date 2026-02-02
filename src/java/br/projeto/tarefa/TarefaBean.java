@@ -61,7 +61,11 @@ public class TarefaBean {
         this.data_conclusao = data_conclusao;
     }
     
-    public String getStatus() {
+    public Integer getStatus() {
+        return status;
+    }
+    
+    public String getStatusText() {
         switch (status) {
             case 0:
                 return "ativo";

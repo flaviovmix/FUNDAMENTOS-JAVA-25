@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <button class="btn-add">
+                <i class="fa-solid fa-plus"></i>
+                Nova Tarefa
+            </button>
+            <h2>FUNDAMENTOS JAVA 25</h2>
+        </div>
+    </header>
+
+    <main>
+
+        <h1>LISTA DE TAREFAS</h1>
+        
+        <table class="task-table">
+
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Prioridade</th>
+                    <th>Responsável</th>
+                    <th>Status</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="row-link">
+                    <td class="prioridade alta cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td>1</td>
+                    <td>Criar a Interface</td>
+                    <td>alta</td>
+                    <td>Steve Jobs</td>
+                    <td>ativo</td>
+                    <td class="btn-action edit"><a href="editar"><i class="fa-solid fa-pen"></i></a></td>
+                    <td class="btn-action delete"><a href="excluir"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+                <tr class="row-link">
+                    <td class="prioridade media cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td>2</td>
+                    <td>Criar banco de dados</td>
+                    <td>media</td>
+                    <td>Bill Gates</td>
+                    <td>ativo</td>
+                    <td class="btn-action edit"><a href="editar"><i class="fa-solid fa-pen"></i></a></td>
+                    <td class="btn-action delete"><a href="excluir"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+                <tr class="row-link">
+                    <td class="prioridade alta cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td>3</td>
+                    <td>Listar tarefas na interface</td>
+                    <td>alta</td>
+                    <td>Mark Zuckerberg</td>
+                    <td>ativo</td>
+                    <td class="btn-action edit"><a href="editar"><i class="fa-solid fa-pen"></i></a></td>
+                    <td class="btn-action delete"><a href="excluir"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+                <tr class="row-link">
+                    <td class="prioridade alta cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td>4</td>
+                    <td>Criando um Pool de Conexões</td>
+                    <td>alta</td>
+                    <td>Elon Musk</td>
+                    <td>ativo</td>
+                    <td class="btn-action edit"><a href="editar"><i class="fa-solid fa-pen"></i></a></td>
+                    <td class="btn-action delete"><a href="excluir"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+                <tr class="row-link">
+                    <td class="prioridade media cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td>5</td>
+                    <td>Entendendo Bean e DAO</td>
+                    <td>media</td>
+                    <td>Larry Page</td>
+                    <td>ativo</td>
+                    <td class="btn-action edit"><a href="editar"><i class="fa-solid fa-pen"></i></a></td>
+                    <td class="btn-action delete"><a href="excluir"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+                <tr class="row-link">
+                    <td class="prioridade alta cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td>6</td>
+                    <td>Tratamento de erros</td>
+                    <td>alta</td>
+                    <td>Jeff Bezos</td>
+                    <td>ativo</td>
+                    <td class="btn-action edit"><a href="editar"><i class="fa-solid fa-pen"></i></a></td>
+                    <td class="btn-action delete"><a href="excluir"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+                <tr class="row-link">
+                    <td class="prioridade media cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td>7</td>
+                    <td>Deletar uma tarefa</td>
+                    <td>media</td>
+                    <td>Sergey Brin</td>
+                    <td>ativo</td>
+                    <td class="btn-action edit"><a href="editar"><i class="fa-solid fa-pen"></i></a></td>
+                    <td class="btn-action delete"><a href="excluir"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+                <tr class="row-link">
+                    <td class="prioridade baixa cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td>8</td>
+                    <td>Resolver o problema de CSS</td>
+                    <td>baixa</td>
+                    <td>Tim Cook</td>
+                    <td>ativo</td>
+                    <td class="btn-action edit"><a href="editar"><i class="fa-solid fa-pen"></i></a></td>
+                    <td class="btn-action delete"><a href="excluir"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+                <tr class="row-link">
+                    <td class="prioridade media cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td>9</td>
+                    <td>Editar tarefa</td>
+                    <td>media</td>
+                    <td>Sundar Pichai</td>
+                    <td>ativo</td>
+                    <td class="btn-action edit"><a href="editar"><i class="fa-solid fa-pen"></i></a></td>
+                    <td class="btn-action delete"><a href="excluir"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+                <tr class="row-link">
+                    <td class="prioridade baixa cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td>10</td>
+                    <td>Desativar tarefa</td>
+                    <td>baixa</td>
+                    <td>Satya Nadella</td>
+                    <td>inativo</td>
+                    <td class="btn-action edit"><a href="editar"><i class="fa-solid fa-pen"></i></a></td>
+                    <td class="btn-action delete"><a href="excluir"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+
+            </tbody>
+        </table>
+        </main>
+        <footer class="footer">
+            <div class="footer-inner">
+                <p>O objetivo não é acelerar o processo nem pular etapas, mas compreender de verdade como tudo funciona
+                    por baixo do capô,<br>
+                    construindo uma base sólida antes de partir para qualquer tipo de automação ou abstração.</p>
+            </div>
+        </footer>
+
+</body>
+
+</html>
