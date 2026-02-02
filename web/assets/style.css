@@ -51,16 +51,20 @@ th {
      width: 15px;
 }
 
-.error {
-    text-align:center; 
-    font-weight:bold; 
-    color:#c00;
+.erro {
+    text-align: center;
+    font-weight: bold;
+    color: #c00;
+    background-color: #ffe5e5;
 }
 
-.text-info {
-    text-align:center; 
-    font-weight:bold;
+.info {
+    text-align: center;
+    font-weight: bold;
+    color: #055160;
+    background-color: #e7f3f7;
 }
+
 .alta {background-color: #fca5a5}
 .media {background-color: #93c5fd}
 .baixa {background-color: #86efac}
