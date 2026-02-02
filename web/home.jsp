@@ -15,8 +15,20 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/style.css">
     </head>
     <body>
-        
-        <h2>FUNDAMENTOS JAVA 25</h2>
+
+    <header>
+        <div class="header-inner">
+            <button class="btn-add">
+                <i class="fa-solid fa-plus"></i>
+                Nova Tarefa
+            </button>
+            <h2>FUNDAMENTOS JAVA 25</h2>
+        </div>
+    </header>
+
+    <main>
+
+        <h1>LISTA DE TAREFAS</h1>
         
         <table class="task-table">
             
@@ -49,8 +61,10 @@
 
                 <% } else { 
                     for (TarefaBean tarefa : tarefas) { %>
-                        <tr>
-                            <td class="prioridade <%= tarefa.getPrioridade() %>"></td>
+                        <tr class="row-link">
+                            <td class="prioridade <%= tarefa.getPrioridade() %> cell-link">
+                                <a href="tarefa" class="row-anchor"></a>
+                            </td>
                             <td><%= tarefa.getId_tarefa() %></td>
                             <td><%= tarefa.getTitulo() %></td>
                             <td><%= tarefa.getPrioridade() %></td>

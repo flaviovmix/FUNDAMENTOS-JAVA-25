@@ -13,8 +13,10 @@ import java.util.List;
 public class TarefaListarServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(
+        HttpServletRequest request, 
+        HttpServletResponse response
+    ) throws ServletException, IOException {
 
         try {
             TarefaDAO dao = new TarefaDAO();
