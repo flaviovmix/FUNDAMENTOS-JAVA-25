@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -69,18 +70,27 @@ public class TarefaCadastrarServlet extends HttpServlet {
 
         // salva
         try {
-            TarefaDAO dao = new TarefaDAO();
-            dao.inserirTarefa(tarefa);
+    TarefaDAO dao = new TarefaDAO();
+    dao.inserirTarefa(tarefa);
 
-            // evita re-submit no refresh
-            response.sendRedirect(request.getContextPath() + "/tarefas");
+    // flash message (igual ao deletar)
+    HttpSession session = request.getSession();
+    session.setAttribute("alertaTipo", "sucesso");
+    session.setAttribute("alertaMsg", "Tarefa adicionada com sucesso.");
 
-        } catch (SQLException e) {
-            log("Erro ao cadastrar tarefa", e);
+    // PRG
+    response.sendRedirect(request.getContextPath() + "/tarefas");
 
-            request.setAttribute("alertaTipo", "erro");
-            request.setAttribute("alertaMsg", "Erro ao cadastrar. Contate um administrador do sistema.");
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
-        }
+} catch (SQLException e) {
+    log("Erro ao cadastrar tarefa", e);
+
+    // flash message de erro (pra manter PRG)
+    HttpSession session = request.getSession();
+    session.setAttribute("alertaTipo", "erro");
+    session.setAttribute("alertaMsg", "Erro ao cadastrar. Contate um administrador do sistema.");
+
+    response.sendRedirect(request.getContextPath() + "/tarefas");
+}
+
     }
 }

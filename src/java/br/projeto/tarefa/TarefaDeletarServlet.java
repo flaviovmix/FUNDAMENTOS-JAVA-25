@@ -29,14 +29,14 @@ public class TarefaDeletarServlet extends HttpServlet {
 
             // flash message
             HttpSession session = request.getSession();
-            session.setAttribute("alertaTipo", "danger");
+            session.setAttribute("alertaTipo", "sucesso");
             session.setAttribute("alertaMsg", "Tarefa deletada com sucesso.");
 
         } catch (NumberFormatException | SQLException e) {
             log("Erro ao deletar tarefa", e);
 
             HttpSession session = request.getSession();
-            session.setAttribute("alertaTipo", "erro");
+            session.setAttribute("alertaTipo", "flashErro");
             session.setAttribute(
                 "alertaMsg",
                 "Erro ao deletar tarefa."

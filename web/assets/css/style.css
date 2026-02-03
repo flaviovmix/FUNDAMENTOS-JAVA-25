@@ -258,14 +258,19 @@ body {
 }
 
 .mini-modal.danger {
-    background: #fee2e2;   /* vermelho claro */
-    color: #991b1b;        /* vermelho escuro */
+    background: #fee2e2;  
+    color: #991b1b;       
     border: 1px solid #fecaca;
 }
 
 .mini-modal.sucesso {
     background: #ecfdf5;
     color: #047857;
+}
+
+.mini-modal.flashErro {
+    background: #fee2e2;   
+    color: #991b1b;   
 }
 
 .mini-modal button {

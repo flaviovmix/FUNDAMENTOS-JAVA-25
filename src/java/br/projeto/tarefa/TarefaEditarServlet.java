@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -35,28 +37,36 @@ public class TarefaEditarServlet extends HttpServlet {
             TarefaBean tarefa = dao.buscarPorId(id);
 
             if (tarefa == null) {
-                request.setAttribute("alertaTipo", "erro");
-                request.setAttribute("alertaMsg", "Tarefa não encontrada.");
-            } else {
-                // manda a tarefa pro JSP preencher o modal
-                request.setAttribute("tarefaEditar", tarefa);
-                // flag pra você saber que tem que abrir modal em modo editar
-                request.setAttribute("abrirModalEditar", true);
+                HttpSession session = request.getSession();
+                session.setAttribute("alertaTipo", "flashErro");
+                session.setAttribute("alertaMsg", "Tarefa não encontrada.");
+
+                response.sendRedirect(request.getContextPath() + "/tarefas");
+                return;
             }
+
+            // manda a tarefa pro JSP preencher o modal
+            request.setAttribute("tarefaEditar", tarefa);
+            request.setAttribute("abrirModalEditar", true);
 
             request.getRequestDispatcher("/home.jsp").forward(request, response);
 
         } catch (SQLException e) {
             log("Erro ao buscar tarefa para edição", e);
-            request.setAttribute("alertaTipo", "erro");
-            request.setAttribute("alertaMsg", "Erro ao carregar tarefa. Contate um administrador do sistema.");
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
+
+            HttpSession session = request.getSession();
+            session.setAttribute("alertaTipo", "erro");
+            session.setAttribute("alertaMsg", "Erro ao carregar tarefa. Contate um administrador do sistema.");
+
+            response.sendRedirect(request.getContextPath() + "/tarefas");
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
 
         String idStr = request.getParameter("id_tarefa");
         String titulo = request.getParameter("titulo");
@@ -65,20 +75,35 @@ public class TarefaEditarServlet extends HttpServlet {
         String descricao = request.getParameter("descricao");
         String statusStr = request.getParameter("status");
 
+        // --- validações ---
         int id;
         try {
-            id = Integer.parseInt(idStr.trim());
+            id = Integer.parseInt(idStr != null ? idStr.trim() : "");
         } catch (Exception e) {
-            request.setAttribute("alertaTipo", "erro");
-            request.setAttribute("alertaMsg", "ID inválido.");
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
+            session.setAttribute("alertaTipo", "flashErro");
+            session.setAttribute("alertaMsg", "Erro ao Editar Tarefa - ID inválido.");
+            response.sendRedirect(request.getContextPath() + "/tarefas");
             return;
         }
 
         if (titulo == null || titulo.trim().isEmpty()) {
-            request.setAttribute("alertaTipo", "erro");
-            request.setAttribute("alertaMsg", "Título é obrigatório.");
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
+            session.setAttribute("alertaTipo", "flashErro");
+            session.setAttribute("alertaMsg", "Título é obrigatório.");
+            response.sendRedirect(request.getContextPath() + "/tarefas");
+            return;
+        }
+
+        if (prioridade == null || prioridade.trim().isEmpty()) {
+            session.setAttribute("alertaTipo", "flashErro");
+            session.setAttribute("alertaMsg", "Prioridade é obrigatória.");
+            response.sendRedirect(request.getContextPath() + "/tarefas");
+            return;
+        }
+
+        if (responsavel == null || responsavel.trim().isEmpty()) {
+            session.setAttribute("alertaTipo", "flashErro");
+            session.setAttribute("alertaMsg", "Responsável é obrigatório.");
+            response.sendRedirect(request.getContextPath() + "/tarefas");
             return;
         }
 
@@ -91,25 +116,31 @@ public class TarefaEditarServlet extends HttpServlet {
             }
         }
 
+        // --- monta bean ---
         TarefaBean tarefa = new TarefaBean();
         tarefa.setId_tarefa(id);
         tarefa.setTitulo(titulo.trim());
         tarefa.setPrioridade(prioridade);
-        tarefa.setResponsavel(responsavel);
+        tarefa.setResponsavel(responsavel.trim());
         tarefa.setStatus(status);
-        tarefa.setDescricao(descricao);
+        tarefa.setDescricao(descricao); // pode ser null/"" mesmo
 
+        // --- salva ---
         try {
             TarefaDAO dao = new TarefaDAO();
             dao.atualizarTarefa(tarefa);
 
-            response.sendRedirect(request.getContextPath() + "/tarefas");
+            session.setAttribute("alertaTipo", "sucesso");
+            session.setAttribute("alertaMsg", "Tarefa editada com sucesso.");
 
         } catch (SQLException e) {
             log("Erro ao editar tarefa", e);
-            request.setAttribute("alertaTipo", "erro");
-            request.setAttribute("alertaMsg", "Erro ao editar. Contate um administrador do sistema.");
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
+
+            session.setAttribute("alertaTipo", "erro");
+            session.setAttribute("alertaMsg", "Erro ao editar. Contate um administrador do sistema.");
         }
+
+        // PRG
+        response.sendRedirect(request.getContextPath() + "/tarefas");
     }
 }
