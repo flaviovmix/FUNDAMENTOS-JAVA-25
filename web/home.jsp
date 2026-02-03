@@ -15,7 +15,8 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/modalTarefa.css">
     </head>
-    <body>
+
+    <body data-context="${pageContext.request.contextPath}">
 
     <header>
         <div class="header-inner">
@@ -71,30 +72,126 @@
                             <td><%= tarefa.getPrioridade() %></td>
                             <td><%= tarefa.getResponsavel() %></td>
                             <td><%= tarefa.getStatusText() %></td>
+                            
                             <td class="btn-action edit">
-                                <a href="#"><i class="fa-solid fa-pen"></i></a>
+                              <a href="#"
+                                 onclick="editarTarefa(
+                                    <%= tarefa.getId_tarefa() %>,
+                                    '<%= tarefa.getTitulo().replace("\\", "\\\\").replace("'", "\\'") %>',
+                                    '<%= tarefa.getPrioridade() %>',
+                                    '<%= tarefa.getResponsavel().replace("\\", "\\\\").replace("'", "\\'") %>',
+                                    <%= tarefa.getStatus() %>,
+                                    '<%= (tarefa.getDescricao() == null ? "" : tarefa.getDescricao().replace("\\", "\\\\").replace("'", "\\'")) %>'
+                                 ); return false;">
+                                <i class="fa-solid fa-pen"></i>
+                              </a>
                             </td>
-                            <td class="btn-action delete">
-                                <a href="#"
-                                   onclick="document.getElementById('del-<%= tarefa.getId_tarefa() %>').submit(); return false;">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
 
-                                <form id="del-<%= tarefa.getId_tarefa() %>"
-                                      action="<%= request.getContextPath() %>/tarefas/deletar"
-                                      method="post"
-                                      style="display:none;">
-                                    <input type="hidden" name="id-tarefa" value="<%= tarefa.getId_tarefa() %>">
-                                </form>
+                            <td class="btn-action delete">
+                              <a href="#"
+                                 onclick="excluirTarefa(
+                                    <%= tarefa.getId_tarefa() %>,
+                                    '<%= tarefa.getTitulo().replace("\\", "\\\\").replace("'", "\\'") %>',
+                                    '<%= tarefa.getPrioridade() %>',
+                                    '<%= tarefa.getResponsavel().replace("\\", "\\\\").replace("'", "\\'") %>',
+                                    <%= tarefa.getStatus() %>,
+                                    '<%= (tarefa.getDescricao() == null ? "" : tarefa.getDescricao().replace("\\", "\\\\").replace("'", "\\'")) %>'
+                                 ); return false;">
+                                <i class="fa-solid fa-trash"></i>
+                              </a>
                             </td>
+
                         </tr>
                     <% } 
                 } %>
 
             </tbody>
         </table>
-        <div id="modal"></div>
+                
+        <!--MODAL-->
+        <div class='overlay-custom' id='modalTarefas' style='display:none;'>
+            <div class='box-modal-custom'>
+
+                <button type="button" class="btn-close-custom" onclick="closeModalTarefas()">×</button>
+                <h2 id="tituloModal">Nova Tarefa</h2>
+
+                <form action="" method="post" class="form-tarefa-custom">
+
+                    <!-- ✅ ÚNICA COISA NOVA PRA EDITAR FUNCIONAR -->
+                    <input type="hidden" id="id_tarefa" name="id_tarefa" value="">
+
+                    <div class="group-custom">
+                        <label class="label-custom" for="titulo">Título</label>
+                        <input type="text" id="titulo" name="titulo" required>
+                    </div>
+
+                    <div class="columns-2-custom">
+
+                        <div class="group-custom">
+                            <label class="label-custom">Prioridade</label>
+
+                            <div class="radio-custom">
+
+                                <label class="label-custom">
+                                    <input type="radio" name="prioridade" value="alta" required>
+                                    Alta
+                                </label>
+
+                                <label class="label-custom">
+                                    <input type="radio" name="prioridade" value="media">
+                                    Média
+                                </label>
+
+                                <label class="label-custom">
+                                    <input type="radio" name="prioridade" value="baixa">
+                                    Baixa
+                                </label>
+
+                            </div>
+                        </div>
+
+                        <div class="group-custom">
+                            <label class="label-custom" for="responsavel">Responsável</label>
+                            <input type="text" id="responsavel" name="responsavel" required>
+                        </div>
+
+                    </div>
+
+                    <div class="columns-2-custom">
+
+                        <div class="group-custom">
+                            <label class="label-custom" for="data_criacao">Data de Criação</label>
+                            <input type="date" id="data_criacao" name="data_criacao" value="2025-01-01" required>
+                        </div>
+
+                        <div class="group-custom">
+                            <label class="label-custom" for="status">Status</label>
+                            <select id="status" name="status" required>
+                                <option value="">Selecione</option>
+                                <option value="0">Rascunho</option>
+                                <option value="1">Pendente</option>
+                                <option value="2">Concluida</option>
+                                <option value="3">Deleta</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="group-custom">
+                        <label class="label-custom" for="descricao">Descrição</label>
+                        <textarea id="descricao" name="descricao" rows="4"></textarea>
+                    </div>
+
+                    <button type="submit" id="botaoConfirmacao" class="btn-save-custom">Salvar Tarefa</button>
+
+                </form>
+
+            </div>
+        </div>
+
+
+        <!--FIM DO MODAL-->
+        
         <script src="./assets/js/modalTarefas.js"></script>
-        <script>desenharModal();</script>
     </body>
 </html>
