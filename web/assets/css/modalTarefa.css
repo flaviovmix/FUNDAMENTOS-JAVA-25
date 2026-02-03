@@ -14,12 +14,24 @@
 /* === CAIXA DO MODAL === */
 .box-modal-custom {
     position: relative;
-    background: #ffffff;
+    /*background: #ffffff;*/
     padding: 40px 10px 10px 10px;
     border-radius: 8px;
     width: 600px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     box-sizing: border-box;
+}
+
+.bg-nova {
+    background-color: #bdd5c6;
+}
+
+.bg-editar {
+    background-color: #e3f0ff;
+}
+
+.bg-excluir {
+    background-color: #ffe4e4;
 }
 
 .box-modal-custom h2 {
@@ -79,7 +91,7 @@
 .form-tarefa-custom {
     /*max-width: 500px;*/
     margin: 4px;
-    background: #fff;
+    background: #fffc;
     padding: 20px;
     border-radius: 10px;
     border: 1px solid #ccc;
