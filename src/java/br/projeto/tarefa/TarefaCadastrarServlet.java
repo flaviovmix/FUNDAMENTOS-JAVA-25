@@ -29,14 +29,27 @@ public class TarefaCadastrarServlet extends HttpServlet {
         String descricao = request.getParameter("descricao");
         String statusStr = request.getParameter("status"); // opcional
 
-        // validação mínima
         if (titulo == null || titulo.trim().isEmpty()) {
-            request.setAttribute("alertaTipo", "erro");
+            request.setAttribute("alertaTipo", "obrigatorio");
             request.setAttribute("alertaMsg", "Título é obrigatório.");
-            request.getRequestDispatcher("/tarefa_cadastrar.jsp").forward(request, response);
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
             return;
         }
 
+        if (prioridade == null || prioridade.trim().isEmpty()) {
+            request.setAttribute("alertaTipo", "obrigatorio");
+            request.setAttribute("alertaMsg", "Prioridade é obrigatório.");
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
+            return;
+        }
+        
+        if (responsavel == null || responsavel.trim().isEmpty()) {
+            request.setAttribute("alertaTipo", "obrigatorio");
+            request.setAttribute("alertaMsg", "Responsavel é obrigatório.");
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
+            return;
+        }
+        
         int status = 0; // default
         if (statusStr != null && !statusStr.trim().isEmpty()) {
             try {
@@ -49,8 +62,8 @@ public class TarefaCadastrarServlet extends HttpServlet {
         // monta bean
         TarefaBean tarefa = new TarefaBean();
         tarefa.setTitulo(titulo.trim());
-        tarefa.setPrioridade(prioridade);     // pode vir null, ok
-        tarefa.setResponsavel(responsavel);   // pode vir null, ok
+        tarefa.setPrioridade(prioridade); 
+        tarefa.setResponsavel(responsavel);
         tarefa.setStatus(status);
         tarefa.setDescricao(descricao);
 

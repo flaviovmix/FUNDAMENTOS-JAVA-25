@@ -216,3 +216,89 @@ tr > th:first-child {
 body {
     padding-bottom: 60px;
 }
+.mini-modal {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 280px;
+    max-width: 420px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 9999;
+    animation: slideDown 0.3s ease-out;
+}
+
+.mini-modal {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 280px;
+    max-width: 420px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 9999;
+    animation: slideDown 0.3s ease-out;
+}
+
+.mini-modal.info {
+    background: #e8f2ff;
+    color: #1d4ed8;
+}
+
+.mini-modal.danger {
+    background: #fee2e2;   /* vermelho claro */
+    color: #991b1b;        /* vermelho escuro */
+    border: 1px solid #fecaca;
+}
+
+.mini-modal.sucesso {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.mini-modal button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: inherit;
+}
+
+.mini-modal.saindo {
+    animation: slideUpOut 0.3s ease-in forwards;
+}
+
+/* animação */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -10px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes slideUpOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -10px);
+    }
+}

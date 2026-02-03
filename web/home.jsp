@@ -32,81 +32,97 @@
 
         <h1>LISTA DE TAREFAS</h1>
         
-        <table class="task-table">
-            
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>ID</th>
-                    <th>Título</th>
-                    <th>Prioridade</th>
-                    <th>Responsável</th>
-                    <th>Status</th>
-                    <th>Editar</th>
-                    <th>Excluir</th>
-                </tr>
-            </thead>
-            
-            <tbody>
-                <%
-                    String alertaTipo = (String) request.getAttribute("alertaTipo");
-                    String alertaMsg  = (String) request.getAttribute("alertaMsg");
-                    List<TarefaBean> tarefas = (List<TarefaBean>) request.getAttribute("tarefas");
-                %>
+<%
+    String alertaTipo = (String) request.getAttribute("alertaTipo");
+    String alertaMsg  = (String) request.getAttribute("alertaMsg");
+%>
 
-                <% if (alertaMsg != null) { %>
-                <tr>
-                    <td class="<%= alertaTipo %>" colspan="8">
-                        <%= alertaMsg %>
+<% if (alertaMsg != null && !"erro".equals(alertaTipo)) { %>
+    <div class="mini-modal <%= alertaTipo %>" id="miniModal">
+        <span><%= alertaMsg %></span>
+        <button onclick="this.parentElement.remove()">×</button>
+    </div>
+<% } %>
+
+        <table class="task-table">
+    
+    <thead>
+        <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Prioridade</th>
+            <th>Responsável</th>
+            <th>Status</th>
+            <th>Editar</th>
+            <th>Excluir</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        <%
+            List<TarefaBean> tarefas =
+                (List<TarefaBean>) request.getAttribute("tarefas");
+        %>
+
+        <%-- ERRO continua dentro da tabela --%>
+        <% if ("erro".equals(alertaTipo)) { %>
+            <tr>
+                <td class="erro" colspan="8">
+                    <%= alertaMsg %>
+                </td>
+            </tr>
+
+        <% } else { 
+            for (TarefaBean tarefa : tarefas) { %>
+
+                <tr class="row-link">
+                    <td class="prioridade <%= tarefa.getPrioridade() %> cell-link">
+                        <a href="tarefa" class="row-anchor"></a>
+                    </td>
+                    <td><%= tarefa.getId_tarefa() %></td>
+                    <td><%= tarefa.getTitulo() %></td>
+                    <td><%= tarefa.getPrioridade() %></td>
+                    <td><%= tarefa.getResponsavel() %></td>
+                    <td><%= tarefa.getStatusText() %></td>
+
+                    <!-- EDITAR -->
+                    <td class="btn-action edit">
+                        <a href="#"
+                           onclick="editarTarefa(
+                               <%= tarefa.getId_tarefa() %>,
+                               '<%= tarefa.getTitulo().replace("\\", "\\\\").replace("'", "\\'") %>',
+                               '<%= tarefa.getPrioridade() %>',
+                               '<%= tarefa.getResponsavel().replace("\\", "\\\\").replace("'", "\\'") %>',
+                               <%= tarefa.getStatus() %>,
+                               '<%= (tarefa.getDescricao() == null ? "" : tarefa.getDescricao().replace("\\", "\\\\").replace("'", "\\'")) %>'
+                           ); return false;">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                    </td>
+
+                    <!-- EXCLUIR -->
+                    <td class="btn-action delete">
+                        <a href="#"
+                           onclick="excluirTarefa(
+                               <%= tarefa.getId_tarefa() %>,
+                               '<%= tarefa.getTitulo().replace("\\", "\\\\").replace("'", "\\'") %>',
+                               '<%= tarefa.getPrioridade() %>',
+                               '<%= tarefa.getResponsavel().replace("\\", "\\\\").replace("'", "\\'") %>',
+                               <%= tarefa.getStatus() %>,
+                               '<%= (tarefa.getDescricao() == null ? "" : tarefa.getDescricao().replace("\\", "\\\\").replace("'", "\\'")) %>'
+                           ); return false;">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
 
-                <% } else { 
-                    for (TarefaBean tarefa : tarefas) { %>
-                        <tr class="row-link">
-                            <td class="prioridade <%= tarefa.getPrioridade() %> cell-link">
-                                <a href="tarefa" class="row-anchor"></a>
-                            </td>
-                            <td><%= tarefa.getId_tarefa() %></td>
-                            <td><%= tarefa.getTitulo() %></td>
-                            <td><%= tarefa.getPrioridade() %></td>
-                            <td><%= tarefa.getResponsavel() %></td>
-                            <td><%= tarefa.getStatusText() %></td>
-                            
-                            <td class="btn-action edit">
-                              <a href="#"
-                                 onclick="editarTarefa(
-                                    <%= tarefa.getId_tarefa() %>,
-                                    '<%= tarefa.getTitulo().replace("\\", "\\\\").replace("'", "\\'") %>',
-                                    '<%= tarefa.getPrioridade() %>',
-                                    '<%= tarefa.getResponsavel().replace("\\", "\\\\").replace("'", "\\'") %>',
-                                    <%= tarefa.getStatus() %>,
-                                    '<%= (tarefa.getDescricao() == null ? "" : tarefa.getDescricao().replace("\\", "\\\\").replace("'", "\\'")) %>'
-                                 ); return false;">
-                                <i class="fa-solid fa-pen"></i>
-                              </a>
-                            </td>
+        <%  }
+           } %>
 
-                            <td class="btn-action delete">
-                              <a href="#"
-                                 onclick="excluirTarefa(
-                                    <%= tarefa.getId_tarefa() %>,
-                                    '<%= tarefa.getTitulo().replace("\\", "\\\\").replace("'", "\\'") %>',
-                                    '<%= tarefa.getPrioridade() %>',
-                                    '<%= tarefa.getResponsavel().replace("\\", "\\\\").replace("'", "\\'") %>',
-                                    <%= tarefa.getStatus() %>,
-                                    '<%= (tarefa.getDescricao() == null ? "" : tarefa.getDescricao().replace("\\", "\\\\").replace("'", "\\'")) %>'
-                                 ); return false;">
-                                <i class="fa-solid fa-trash"></i>
-                              </a>
-                            </td>
+    </tbody>
+</table>
 
-                        </tr>
-                    <% } 
-                } %>
-
-            </tbody>
-        </table>
                 
 <!--MODAL-->
 <div class='overlay-custom' id='modalTarefas' style='display:none;'>

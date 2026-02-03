@@ -101,6 +101,23 @@ function excluirTarefa(id, titulo, prioridade, responsavel, status, descricao) {
     openModalTarefas();
 }
 
+function fecharMiniModal() {
+    const modal = document.getElementById("miniModal");
+    if (!modal) return;
+
+    // dispara animação de saída
+    modal.classList.add("saindo");
+
+    // remove só depois da animação
+    setTimeout(() => {
+        modal.remove();
+    }, 300); // mesmo tempo do CSS
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(fecharMiniModal, 5000);
+});
+
 function setCamposHabilitados(habilitar) {
     document.getElementById("titulo").disabled = !habilitar;
     document.getElementById("responsavel").disabled = !habilitar;
@@ -112,3 +129,6 @@ function setCamposHabilitados(habilitar) {
         r.disabled = !habilitar;
     });
 }
+
+
+
