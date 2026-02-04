@@ -14,55 +14,6 @@ import java.sql.SQLException;
 public class TarefaEditarServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        String idStr = request.getParameter("id");
-
-        if (idStr == null || idStr.trim().isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/tarefas");
-            return;
-        }
-
-        int id;
-        try {
-            id = Integer.parseInt(idStr.trim());
-        } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/tarefas");
-            return;
-        }
-
-        try {
-            TarefaDAO dao = new TarefaDAO();
-            TarefaBean tarefa = dao.buscarPorId(id);
-
-            if (tarefa == null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("alertaTipo", "flashErro");
-                session.setAttribute("alertaMsg", "Tarefa não encontrada.");
-
-                response.sendRedirect(request.getContextPath() + "/tarefas");
-                return;
-            }
-
-            // manda a tarefa pro JSP preencher o modal
-            request.setAttribute("tarefaEditar", tarefa);
-            request.setAttribute("abrirModalEditar", true);
-
-            request.getRequestDispatcher("/home.jsp").forward(request, response);
-
-        } catch (SQLException e) {
-            log("Erro ao buscar tarefa para edição", e);
-
-            HttpSession session = request.getSession();
-            session.setAttribute("alertaTipo", "erro");
-            session.setAttribute("alertaMsg", "Erro ao carregar tarefa. Contate um administrador do sistema.");
-
-            response.sendRedirect(request.getContextPath() + "/tarefas");
-        }
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -95,7 +46,7 @@ public class TarefaEditarServlet extends HttpServlet {
 
         if (prioridade == null || prioridade.trim().isEmpty()) {
             session.setAttribute("alertaTipo", "flashErro");
-            session.setAttribute("alertaMsg", "Prioridade é obrigatória.");
+            session.setAttribute("alertaMsg", "Prioridade obrigatória.");
             response.sendRedirect(request.getContextPath() + "/tarefas");
             return;
         }

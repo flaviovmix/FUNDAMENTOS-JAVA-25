@@ -39,7 +39,7 @@ public class TarefaCadastrarServlet extends HttpServlet {
 
         if (prioridade == null || prioridade.trim().isEmpty()) {
             request.setAttribute("alertaTipo", "obrigatorio");
-            request.setAttribute("alertaMsg", "Prioridade é obrigatório.");
+            request.setAttribute("alertaMsg", "Prioridade obrigatória.");
             request.getRequestDispatcher("/home.jsp").forward(request, response);
             return;
         }

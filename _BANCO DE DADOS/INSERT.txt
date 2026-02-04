@@ -1,0 +1,36 @@
+--------------------------------------------------------------
+DROP TABLE tarefas;
+--------------------------------------------------------------
+CREATE TABLE tarefas (
+    id_tarefa INTEGER GENERATED ALWAYS AS IDENTITY,
+    titulo VARCHAR(100) NOT NULL,
+    prioridade VARCHAR(10),
+    responsavel VARCHAR(100) NOT NULL DEFAULT 'Desconhecido',
+    data_criacao TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    data_conclusao TIMESTAMP WITHOUT TIME ZONE,
+    status SMALLINT,
+    descricao TEXT,
+
+    CONSTRAINT tarefas_pk PRIMARY KEY (id_tarefa),
+
+    CONSTRAINT tarefas_prioridade_check
+        CHECK (prioridade IN ('baixa', 'media', 'alta')),
+
+    CONSTRAINT tarefas_status_check
+        CHECK (status IN (0, 1, 2, 3))
+);
+--------------------------------------------------------------
+TRUNCATE TABLE tarefas RESTART IDENTITY;
+INSERT INTO tarefas (titulo, prioridade, responsavel, status)
+VALUES
+('Criar a Interface', 'alta', 'Steve Jobs', 1),
+('Criar banco de dados', 'media', 'Bill Gates', 1),
+('Listar tarefas na interface', 'alta', 'Mark Zuckerberg', 1),
+('Criando um Pool de Conexões', 'alta', 'Elon Musk', 1),
+('Entendendo Bean e DAO', 'media', 'Larry Page', 1),
+('Tratamento de erros', 'alta', 'Jeff Bezos', 1),
+('Deletar uma tarefa', 'media', 'Sergey Brin', 1),
+('Resolver o problema de CSS', 'baixa', 'Tim Cook', 1),
+('Editar tarefa', 'media', 'Sundar Pichai', 1),
+('Desativar tarefa', 'baixa', 'Satya Nadella', 0);
+--------------------------------------------------------------
