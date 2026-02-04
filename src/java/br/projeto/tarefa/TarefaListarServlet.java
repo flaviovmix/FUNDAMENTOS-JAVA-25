@@ -37,28 +37,18 @@ public class TarefaListarServlet extends HttpServlet {
         }
 
         try {
-            // 2) Buscar tarefas
             TarefaDAO dao = new TarefaDAO();
             List<TarefaBean> tarefas = dao.listarTarefas();
-
-            if (tarefas == null) {
-                tarefas = Collections.emptyList();
-            }
-
-            request.setAttribute("tarefas", tarefas);
-
-            // 3) Mensagem informativa quando lista vazia (se ainda não veio flash)
+            
             if (tarefas.isEmpty()) {
                 request.setAttribute("alertaInfoTipo", "info");
                 request.setAttribute("alertaInfoMsg", "Nenhuma tarefa cadastrada.");
             }
 
-
-            // 4) Renderizar
+            request.setAttribute("tarefas", tarefas);
             request.getRequestDispatcher("/home.jsp").forward(request, response);
 
         } catch (SQLException e) {
-
             log("Erro ao acessar o banco de dados", e);
 
             request.setAttribute("tarefas", java.util.Collections.emptyList());
@@ -71,14 +61,13 @@ public class TarefaListarServlet extends HttpServlet {
             request.getRequestDispatcher("/home.jsp").forward(request, response);
 
         } catch (Exception e) { // blindagem final
-
             log("Erro inesperado", e);
 
             request.setAttribute("tarefas", java.util.Collections.emptyList());
             request.setAttribute("alertaTipo", "erro");
             request.setAttribute(
                     "alertaMsg",
-                    "Erro ao conectar ao banco de dados. Contate um administrador do sistema."
+                    "Erro inesperado. Contate um administrador do sistema."
             );
 
             request.getRequestDispatcher("/home.jsp").forward(request, response);
