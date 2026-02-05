@@ -131,4 +131,21 @@ function setCamposHabilitados(habilitar) {
 }
 
 
+const overlay = document.getElementById("modalTarefas");
+const modal   = document.getElementById("bgModal");
+
+overlay.addEventListener("click", function(e) {
+
+    // se clicou fora do modal
+    if (!modal.contains(e.target)) {
+
+        // aplica shake
+        modal.classList.add("shake-modal");
+
+        // remove depois da animação
+        setTimeout(() => {
+            modal.classList.remove("shake-modal");
+        }, 350);
+    }
+});
 

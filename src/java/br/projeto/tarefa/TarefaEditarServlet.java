@@ -14,10 +14,12 @@ import java.sql.SQLException;
 public class TarefaEditarServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(
+        HttpServletRequest request, 
+        HttpServletResponse response
+    ) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
 
         String idStr = request.getParameter("id_tarefa");
         String titulo = request.getParameter("titulo");
@@ -58,13 +60,14 @@ public class TarefaEditarServlet extends HttpServlet {
             return;
         }
 
-        int status = 0;
-        if (statusStr != null && !statusStr.trim().isEmpty()) {
-            try {
-                status = Integer.parseInt(statusStr.trim());
-            } catch (NumberFormatException ignore) {
-                status = 0;
-            }
+        int status;
+        try {
+            status = Integer.parseInt(statusStr != null ? statusStr.trim() : "");
+        } catch (Exception e) {
+            session.setAttribute("alertaTipo", "flashErro");
+            session.setAttribute("alertaMsg", "Erro ao Editar Tarefa - Status inválido.");
+            response.sendRedirect(request.getContextPath() + "/tarefas");
+            return;
         }
 
         // --- monta bean ---
@@ -74,7 +77,7 @@ public class TarefaEditarServlet extends HttpServlet {
         tarefa.setPrioridade(prioridade);
         tarefa.setResponsavel(responsavel.trim());
         tarefa.setStatus(status);
-        tarefa.setDescricao(descricao); // pode ser null/"" mesmo
+        tarefa.setDescricao(descricao);
 
         // --- salva ---
         try {
@@ -91,7 +94,7 @@ public class TarefaEditarServlet extends HttpServlet {
             session.setAttribute("alertaMsg", "Erro ao editar. Contate um administrador do sistema.");
         }
 
-        // PRG
+        //PRG - POST REDIRECT GET
         response.sendRedirect(request.getContextPath() + "/tarefas");
     }
 }

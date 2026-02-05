@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 
 @WebServlet("/tarefas")
@@ -21,7 +20,6 @@ public class TarefaListarServlet extends HttpServlet {
             HttpServletResponse response
     ) throws ServletException, IOException {
 
-        // 1) Flash message (vem da session e vira request por 1 request)
         HttpSession session = request.getSession(false);
         if (session != null) {
             Object tipo = session.getAttribute("alertaTipo");

@@ -14,8 +14,10 @@ import java.sql.SQLException;
 public class TarefaBuscarPorIdServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(
+        HttpServletRequest request, 
+        HttpServletResponse response
+    ) throws ServletException, IOException {
 
         String idStr = request.getParameter("id");
         String acao  = request.getParameter("acao"); // "editar" | "deletar"

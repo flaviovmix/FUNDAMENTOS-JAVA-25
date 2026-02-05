@@ -29,7 +29,22 @@
     </header>
 
     <main>
-<h1>LISTA DE TAREFAS</h1>
+        
+    <div class="page-header">
+
+        <h1>LISTA DE TAREFAS</h1>
+
+        <div class="legenda-prioridade">
+            <span class="legenda-label">níveis de prioridade</span>
+
+            <div class="legenda-badges">
+                <span class="badge baixa">baixa</span>
+                <span class="badge media">média</span>
+                <span class="badge alta">alta</span>
+            </div>
+        </div>
+
+    </div>
 
 <%
     // flash (pós-ação: deletar/cadastrar/editar)

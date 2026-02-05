@@ -13,22 +13,25 @@ import java.sql.SQLException;
 public class TarefaCadastrarServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void doGet(
+        HttpServletRequest request, 
+        HttpServletResponse response
+    ) throws ServletException, IOException {
         request.getRequestDispatcher("/home.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(
+            HttpServletRequest request, 
+            HttpServletResponse response
+    ) throws ServletException, IOException {
 
         // pega dados do form
         String titulo = request.getParameter("titulo");
         String prioridade = request.getParameter("prioridade");
         String responsavel = request.getParameter("responsavel");
         String descricao = request.getParameter("descricao");
-        String statusStr = request.getParameter("status"); // opcional
+        String statusStr = request.getParameter("status"); 
 
         if (titulo == null || titulo.trim().isEmpty()) {
             request.setAttribute("alertaTipo", "obrigatorio");
@@ -51,13 +54,14 @@ public class TarefaCadastrarServlet extends HttpServlet {
             return;
         }
         
-        int status = 0; // default
-        if (statusStr != null && !statusStr.trim().isEmpty()) {
-            try {
-                status = Integer.parseInt(statusStr.trim());
-            } catch (NumberFormatException ignore) {
-                status = 0;
-            }
+        int status;
+        try {
+            status = Integer.parseInt(statusStr != null ? statusStr.trim() : "");
+        } catch (Exception e) {
+            request.setAttribute("alertaTipo", "flashErro");
+            request.setAttribute("alertaMsg", "Erro ao Editar Tarefa - Status inválido.");
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
+            return;
         }
 
         // monta bean
@@ -70,27 +74,26 @@ public class TarefaCadastrarServlet extends HttpServlet {
 
         // salva
         try {
-    TarefaDAO dao = new TarefaDAO();
-    dao.inserirTarefa(tarefa);
+            TarefaDAO dao = new TarefaDAO();
+            dao.inserirTarefa(tarefa);
 
-    // flash message (igual ao deletar)
-    HttpSession session = request.getSession();
-    session.setAttribute("alertaTipo", "sucesso");
-    session.setAttribute("alertaMsg", "Tarefa adicionada com sucesso.");
+            HttpSession session = request.getSession();
+            session.setAttribute("alertaTipo", "sucesso");
+            session.setAttribute("alertaMsg", "Tarefa adicionada com sucesso.");
 
-    // PRG
-    response.sendRedirect(request.getContextPath() + "/tarefas");
+            //PRG - POST REDIRECT GET
+            response.sendRedirect(request.getContextPath() + "/tarefas");
 
-} catch (SQLException e) {
-    log("Erro ao cadastrar tarefa", e);
+        } catch (SQLException e) {
+            log("Erro ao cadastrar tarefa", e);
 
-    // flash message de erro (pra manter PRG)
-    HttpSession session = request.getSession();
-    session.setAttribute("alertaTipo", "erro");
-    session.setAttribute("alertaMsg", "Erro ao cadastrar. Contate um administrador do sistema.");
+            HttpSession session = request.getSession();
+            session.setAttribute("alertaTipo", "erro");
+            session.setAttribute("alertaMsg", "Erro ao cadastrar. Contate um administrador do sistema.");
 
-    response.sendRedirect(request.getContextPath() + "/tarefas");
-}
+            //PRG - POST REDIRECT GET
+            response.sendRedirect(request.getContextPath() + "/tarefas");
+        }
 
     }
 }
