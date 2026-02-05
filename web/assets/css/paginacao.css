@@ -1,0 +1,107 @@
+/* =======================================================================
+   PAGINAÇÃO (integrada com a tabela)
+   ======================================================================= */
+.task-pagination2{
+    width: 100%;                 /* segue o main (900px) */
+    max-width: 520px;            /* não fica gigantesca */
+    margin: 16px auto 0;
+
+    display: flex;
+    align-items: stretch;
+
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);  /* igual a tabela */
+}
+
+/* divisórias internas (bem leves) */
+.task-pagination2 > * + *{
+    border-left: 1px solid #edf2f7;
+}
+
+/* botões laterais (pequenos, discretos) */
+.task2-btn{
+    flex: 0 0 56px;
+    height: 44px;
+
+    border: 0;
+    background: transparent;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #636464;
+
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.task2-btn:hover{
+    background: #f1f5f9;         /* mesmo hover da linha */
+}
+
+.task2-btn:disabled{
+    opacity: 0.40;
+    cursor: not-allowed;
+}
+
+/* centro */
+.task2-center{
+    flex: 1;
+    height: 44px;
+    padding: 0 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative; /* seta do select */
+}
+
+/* dropdown com cara de input do seu sistema */
+.task2-select{
+    width: 100%;
+    max-width: 260px;            /* controla o tamanho do meio */
+    height: 34px;
+
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    
+    color: #636464;
+
+    padding: 0 36px 0 12px;
+    outline: none;
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.task2-select:focus{
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 3px rgba(147,197,253,0.35);
+}
+
+/* seta pequena e discreta */
+.task2-center::after{
+    content: "";
+    position: absolute;
+    right: 30px;
+
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid #636464;
+    border-bottom: 2px solid #636464;
+    transform: rotate(45deg);
+
+    pointer-events: none;
+    opacity: 0.75;
+}
